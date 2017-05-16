@@ -1,7 +1,6 @@
 "use strict";
 
 const mongoose = require("mongoose");
-const User = require("./user");
 
 const CourseSchema = new mongoose.Schema({
     user: {
@@ -35,3 +34,6 @@ const CourseSchema = new mongoose.Schema({
     }]
 
 });
+
+const Course = mongoose.model('Course', CourseSchema);
+module.exports = Course;
