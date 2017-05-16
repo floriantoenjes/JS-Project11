@@ -16,9 +16,7 @@ const CourseSchema = new mongoose.Schema({
     },
     estimatedTime: String,
     materialsNeeded: String,
-
-    // ToDo: Don't know if following data is correct
-    steps: [
+    steps: [{
         stepNumber: Number,
         title: {
             type: String,
@@ -28,7 +26,8 @@ const CourseSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    ],
+    }],
+    // ToDo: Don't know if following data is correct
     [
         _id: ObjectId
     ]
