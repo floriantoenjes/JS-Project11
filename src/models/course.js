@@ -5,7 +5,7 @@ const User = require("./user");
 
 const CourseSchema = new mongoose.Schema({
     // ToDo: user required?
-    user: Number,
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     title: {
         type: String,
         required: true
