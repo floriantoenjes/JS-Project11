@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const User = require("./user");
 
 const CourseSchema = new mongoose.Schema({
-    // ToDo: user required?
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     title: {
         type: String,
         required: true
@@ -27,9 +29,9 @@ const CourseSchema = new mongoose.Schema({
             required: true
         }
     }],
-    // ToDo: Don't know if following data is correct
-    [
-        _id: ObjectId
-    ]
+    reviews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review'
+    }]
 
 });
