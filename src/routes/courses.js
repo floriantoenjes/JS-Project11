@@ -35,6 +35,16 @@ router.post("/", function (req, res, next) {
     });
 });
 
+router.put("/:courseId", function (req, res, next) {
+    Course.update({ _id: req.params.courseId }, { $set: req.body}, function (err, course) {
+        if (err) {
+            return next(err);
+        }
+        res.status(204);
+        res.send();
+    });
+});
+
 
 
 
