@@ -10,7 +10,7 @@ function getCredentials(req, res, next) {
 
         User.authenticate(emailAddress, password, function (err, user) {
             if (err) {
-                next(err);
+                return next(err);
             } else {
                 req.user = user;
                 return next();
