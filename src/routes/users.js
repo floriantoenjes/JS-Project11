@@ -1,11 +1,12 @@
 "use strict";
 
-const express = require("express");
 const basicAuth = require("basic-auth");
 const bcrypt = require("bcrypt");
-const router = express.Router();
-const User = require("../models/user");
+const express = require("express");
 const mid = require("../middleware");
+const router = express.Router();
+
+const User = require("../models/user");
 
 router.get("/", mid.getCredentials, function (req, res, next) {
     if (req.user) {
