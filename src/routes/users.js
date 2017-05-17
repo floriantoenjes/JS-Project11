@@ -11,7 +11,8 @@ router.post("/", function (req, res, next) {
             return next(err);
         }
         res.status(201);
-        res.json(user);
+        res.location("/");
+        res.send();
     });
 });
 
