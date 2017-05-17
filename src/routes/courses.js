@@ -54,7 +54,10 @@ router.post("/:courseId/reviews", function (req, res, next) {
 
         const review = new Review(req.body);
         review.save(function (err, review) {
-
+            if (err) {
+                err.status = 400;
+                return next(err);
+            }
             course.reviews.push(review);
             course.save(function (err, course) {
                 if (err) {
