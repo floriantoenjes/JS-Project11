@@ -14,7 +14,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/:courseId", function (req, res, next) {
-    Course.findById(req.params.courseId, function (err, course) {
+    Course.findById(req.params.courseId).populate("reviews user").exec(function (err, course) {
         if (err) {
             return next(err);
         }
