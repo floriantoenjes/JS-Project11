@@ -39,24 +39,26 @@ router.post("/", mid.getCredentials, function (req, res, next) {
     }
 });
 
-router.put("/:courseId", function (req, res, next) {
-    Course.findById(req.params.courseId, function (err, course) {
-        if (err) {
-            return next(err);
-        }
-        if (!course) {
-            return next();
-        }
-        Object.assign(course, req.body);
-        course.save(function (err, updatedCourse) {
+router.put("/:courseId", mid.getCredentials, function (req, res, next) {
+    if (req.user) {
+        Course.findById(req.params.courseId, function (err, course) {
             if (err) {
-                err.status = 400;
                 return next(err);
             }
-            res.status(204);
-            res.send();
+            if (!course) {
+                return next();
+            }
+            Object.assign(course, req.body);
+            course.save(function (err, updatedCourse) {
+                if (err) {
+                    err.status = 400;
+                    return next(err);
+                }
+                res.status(204);
+                res.send();
+            });
         });
-    });
+    }
 });
 
 router.post("/:courseId/reviews", function (req, res, next) {
