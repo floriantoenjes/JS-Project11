@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const Course = require("../models/course");
 const Review = require("../models/review");
+const mid = require("../middleware");
 
 router.get("/", function (req, res, next) {
     Course.find({}, "title", function (err, courses) {
@@ -23,17 +24,19 @@ router.get("/:courseId", function (req, res, next) {
     });
 });
 
-router.post("/", function (req, res, next) {
-    const course = new Course(req.body);
-    course.save(function (err, user) {
-        if (err) {
-            err.status = 400;
-            return next(err);
-        }
-        res.status(201);
-        res.location("/");
-        res.send();
-    });
+router.post("/", mid.getCredentials, function (req, res, next) {
+    if (req.user) {
+        const course = new Course(req.body);
+        course.save(function (err, user) {
+            if (err) {
+                err.status = 400;
+                return next(err);
+            }
+            res.status(201);
+            res.location("/");
+            res.send();
+        });
+    }
 });
 
 router.put("/:courseId", function (req, res, next) {
