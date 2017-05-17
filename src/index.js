@@ -35,7 +35,7 @@ db.once("open", function () {
     console.log("db connection successful");
 
     seeder.seed(data).then(function (dbData) {
-       console.log("Seeded data");
+        console.log("Seeded data");
     }).catch(function (err) {
         console.error(err);
     });
@@ -55,22 +55,27 @@ app.use('/api/users', userRoutes);
 app.use('/api/courses', courseRoutes);
 
 // catch 404 and forward to global error handler
-app.use(function(req, res, next) {
-  var err = new Error('File Not Found');
-  err.status = 404;
-  next(err);
+app.use(function (req, res, next) {
+    var err = new Error('File Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // Express's global error handler
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+
+    //  This code is not working right now
+    //  res.render('error', {
+    //    message: err.message,
+    //    error: {}
+    //  });
+    res.send({
+        message: err.message
+    });
 });
 
 // start listening on our port
-var server = app.listen(app.get('port'), function() {
-  console.log('Express server is listening on port ' + server.address().port);
+var server = app.listen(app.get('port'), function () {
+    console.log('Express server is listening on port ' + server.address().port);
 });
