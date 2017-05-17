@@ -6,14 +6,20 @@ const router = express.Router();
 const User = require("../models/user");
 
 router.get("/", function (req, res, next) {
-    const emailAddress = basicAuth(req).name;
-    User.find({emailAddress: emailAddress}, function (err, user) {
-        if (err) {
-            next(err);
-        }
-        res.json(user);
-    })
-
+    const auth = basicAuth(req);
+    if (auth) {
+        const emailAddress = basicAuth(req).name;
+        User.find({
+            emailAddress: emailAddress
+        }, function (err, user) {
+            if (err) {
+                next(err);
+            }
+            res.json(user);
+        })
+    } else {
+        next();
+    }
 });
 
 router.post("/", function (req, res, next) {
