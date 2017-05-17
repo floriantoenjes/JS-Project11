@@ -1,4 +1,7 @@
+"use strict";
+
 const basicAuth = require("basic-auth");
+
 const User = require("../models/user");
 
 function getCredentials(req, res, next) {

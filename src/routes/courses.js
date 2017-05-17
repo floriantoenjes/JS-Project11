@@ -2,9 +2,12 @@
 
 const express = require("express");
 const router = express.Router();
+const mid = require("../middleware");
+
+// models
 const Course = require("../models/course");
 const Review = require("../models/review");
-const mid = require("../middleware");
+
 
 router.get("/", function (req, res, next) {
     Course.find({}, "title", function (err, courses) {
