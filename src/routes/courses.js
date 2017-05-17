@@ -36,7 +36,6 @@ router.post("/", function (req, res, next) {
     });
 });
 
-// ToDo: Look into why it's not giving an error
 router.put("/:courseId", function (req, res, next) {
     Course.findById(req.params.courseId, function (err, course) {
         if (err) {
