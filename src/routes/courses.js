@@ -22,7 +22,18 @@ router.get("/:courseId", function (req, res, next) {
     });
 });
 
-
+router.post("/", function (req, res, next) {
+    const course = new Course(req.body);
+    console.log(course);
+    course.save(function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        res.status(201);
+        res.location("/");
+        res.send();
+    });
+});
 
 
 
