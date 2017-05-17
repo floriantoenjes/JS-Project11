@@ -12,24 +12,14 @@ router.get("/", function (req, res, next) {
         const emailAddress = basicAuth(req).name;
         const password = basicAuth(req).pass;
 
-        User.findOne({
-            emailAddress: emailAddress
-        }, function (err, user) {
-            if (err) {
+        User.authenticate(emailAddress, password, function (err, user) {
+            if (err || !user) {
+                const err = new Error("Unauthorized");
+                err.status = 401;
                 next(err);
+            } else {
+                res.json(user);
             }
-            bcrypt.compare(password, user.password, function (error, result) {
-                if (error) {
-                    next(error);
-                }
-                if (result === true) {
-                    res.json(user);
-                } else {
-                    const error = new Error("Unauthorized");
-                    error.status = 401;
-                    return next(error);
-                }
-            });
         });
     } else {
         const err = new Error("Unauthorized");
