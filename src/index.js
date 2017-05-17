@@ -14,6 +14,7 @@ var Review = require("./models/review");
 var data = require('./data/data.json')
 
 var userRoutes = require('./routes/users')
+var courseRoutes = require('./routes/courses')
 
 var app = express();
 
@@ -51,6 +52,7 @@ app.use(morgan('dev'));
 app.use('/', express.static('public'));
 
 app.use('/api/users', userRoutes);
+app.use('/api/courses', courseRoutes);
 
 // catch 404 and forward to global error handler
 app.use(function(req, res, next) {

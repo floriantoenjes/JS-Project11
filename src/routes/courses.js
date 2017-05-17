@@ -5,10 +5,13 @@ const router = express.Router();
 const Course = require("../models/course");
 
 router.get("/", function (req, res, next) {
-
+    Course.find({}, "title", function (err, courses) {
+        if (err) {
+            return next(err);
+        }
+        res.json(courses);
+    });
 });
-
-
 
 
 
