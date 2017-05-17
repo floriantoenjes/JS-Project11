@@ -8,7 +8,7 @@ const User = require("../models/user");
 
 router.get("/", function (req, res, next) {
     const auth = basicAuth(req);
-    if (auth) {
+    if (auth && basicAuth(req).name && basicAuth(req).pass) {
         const emailAddress = basicAuth(req).name;
         const password = basicAuth(req).pass;
 
