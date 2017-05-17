@@ -27,6 +27,7 @@ router.post("/", function (req, res, next) {
     const course = new Course(req.body);
     course.save(function (err, user) {
         if (err) {
+            err.status = 400;
             return next(err);
         }
         res.status(201);
@@ -35,6 +36,7 @@ router.post("/", function (req, res, next) {
     });
 });
 
+// ToDo: Look into why it's not giving an error
 router.put("/:courseId", function (req, res, next) {
     Course.update({
         _id: req.params.courseId
