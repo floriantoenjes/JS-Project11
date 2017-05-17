@@ -13,9 +13,7 @@ router.get("/", function (req, res, next) {
         const password = basicAuth(req).pass;
 
         User.authenticate(emailAddress, password, function (err, user) {
-            if (err || !user) {
-                const err = new Error("Unauthorized");
-                err.status = 401;
+            if (err) {
                 next(err);
             } else {
                 res.json(user);

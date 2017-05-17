@@ -28,7 +28,7 @@ UserSchema.statics.authenticate = function (emailAddress, password, callback) {
         if (err) {
             return callback(err);
         } else if (!user) {
-            const err = new Error("Unauthorized");
+            const err = new Error("User not found");
             err.status = 401;
             return callback(err);
         }
@@ -36,7 +36,9 @@ UserSchema.statics.authenticate = function (emailAddress, password, callback) {
            if (result === true) {
                return callback(null, user);
            } else {
-               return callback();
+               const err = new Error("Unauthorized")
+               err.status = 401;
+               return callback(err);
            }
         });
     });
