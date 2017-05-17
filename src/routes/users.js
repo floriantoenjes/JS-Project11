@@ -18,7 +18,9 @@ router.get("/", function (req, res, next) {
             res.json(user);
         })
     } else {
-        next();
+        const err = new Error("Unauthorized");
+        err.status = 401;
+        return next(err);
     }
 });
 
