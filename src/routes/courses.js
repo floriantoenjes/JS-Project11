@@ -61,27 +61,29 @@ router.put("/:courseId", mid.getCredentials, function (req, res, next) {
     }
 });
 
-router.post("/:courseId/reviews", function (req, res, next) {
-    Course.findById(req.params.courseId, function (err, course) {
+router.post("/:courseId/reviews", mid.getCredentials, function (req, res, next) {
+    if (req.user) {
+        Course.findById(req.params.courseId, function (err, course) {
 
-        const review = new Review(req.body);
-        review.save(function (err, review) {
-            if (err) {
-                err.status = 400;
-                return next(err);
-            }
-            course.reviews.push(review);
-            course.save(function (err, course) {
+            const review = new Review(req.body);
+            review.save(function (err, review) {
                 if (err) {
                     err.status = 400;
                     return next(err);
                 }
-                res.status(201);
-                res.location("/" + req.params.courseId);
-                res.send();
+                course.reviews.push(review);
+                course.save(function (err, course) {
+                    if (err) {
+                        err.status = 400;
+                        return next(err);
+                    }
+                    res.status(201);
+                    res.location("/" + req.params.courseId);
+                    res.send();
+                });
             });
         });
-    });
+    }
 });
 
 
