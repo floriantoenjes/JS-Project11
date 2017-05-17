@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const Course = require("../models/course");
+const Review = require("../models/review");
 
 router.get("/", function (req, res, next) {
     Course.find({}, "title", function (err, courses) {
@@ -24,7 +25,6 @@ router.get("/:courseId", function (req, res, next) {
 
 router.post("/", function (req, res, next) {
     const course = new Course(req.body);
-    console.log(course);
     course.save(function (err, user) {
         if (err) {
             return next(err);
@@ -45,7 +45,9 @@ router.put("/:courseId", function (req, res, next) {
     });
 });
 
-
+router.post("/:courseId/reviews", function (req, res, next) {
+    const review = new Review(req.body);
+});
 
 
 
