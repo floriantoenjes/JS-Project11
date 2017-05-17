@@ -26,6 +26,7 @@ router.post("/", function (req, res, next) {
     const user = new User(req.body);
     user.save(function (err, user) {
         if (err) {
+            err.status = 400;
             return next(err);
         }
         res.status(201);
