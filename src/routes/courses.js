@@ -63,6 +63,7 @@ router.post("/:courseId/reviews", function (req, res, next) {
             course.reviews.push(review);
             course.save(function (err, course) {
                 if (err) {
+                    err.status = 400;
                     return next(err);
                 }
                 res.status(201);
