@@ -38,16 +38,22 @@ router.post("/", function (req, res, next) {
 
 // ToDo: Look into why it's not giving an error
 router.put("/:courseId", function (req, res, next) {
-    Course.update({
-        _id: req.params.courseId
-    }, {
-        $set: req.body
-    }, function (err, course) {
+    Course.findById(req.params.courseId, function (err, course) {
         if (err) {
             return next(err);
         }
-        res.status(204);
-        res.send();
+        if (!course) {
+            return next();
+        }
+        Object.assign(course, req.body);
+        course.save(function (err, updatedCourse) {
+            if (err) {
+                err.status = 400;
+                return next(err);
+            }
+            res.status(204);
+            res.send();
+        });
     });
 });
 
