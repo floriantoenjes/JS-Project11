@@ -13,7 +13,14 @@ router.get("/", function (req, res, next) {
     });
 });
 
-
+router.get("/:courseId", function (req, res, next) {
+    Course.findById(req.params.courseId, function (err, course) {
+        if (err) {
+            return next(err);
+        }
+        res.json(course);
+    });
+});
 
 
 
