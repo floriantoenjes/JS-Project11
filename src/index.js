@@ -7,21 +7,19 @@ var mongoose = require('mongoose');
 var seeder = require('mongoose-seeder');
 var bodyParser = require('body-parser');
 
+// models
 var Course = require("./models/course");
 var User = require("./models/user");
 var Review = require("./models/review");
 
-var data = require('./data/data.json')
-
+// routes
 var userRoutes = require('./routes/users')
 var courseRoutes = require('./routes/courses')
 
-var app = express();
+// db seed data
+var data = require('./data/data.json')
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+var app = express();
 
 // Configure the Mongo Database
 mongoose.connect('mongodb://localhost:27017/course-rating-api')
@@ -44,6 +42,12 @@ db.once("open", function () {
 
 // set our port
 app.set('port', process.env.PORT || 5000);
+
+// setup body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // morgan gives us http request logging
 app.use(morgan('dev'));
@@ -70,6 +74,7 @@ app.use(function (err, req, res, next) {
     //    message: err.message,
     //    error: {}
     //  });
+
     res.send({
         message: err.message
     });
