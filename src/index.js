@@ -65,7 +65,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
 
-    //  This code is not working right now
+    //  This code was provided by Treehouse and doesn't work
     //  res.render('error', {
     //    message: err.message,
     //    error: {}
