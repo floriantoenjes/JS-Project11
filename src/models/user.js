@@ -3,7 +3,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const UserSchema = new mongoose.Schema( {
+const UserSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true
@@ -19,6 +19,27 @@ const UserSchema = new mongoose.Schema( {
         required: true
     }
 });
+
+UserSchema.statics.authenticate = function (email, password, callback) {
+    User.findOne({
+        email: email
+    }, function (err, user) {
+        if (err) {
+            return callback(err);
+        } else if (!user) {
+            const err = new Error("Unauthorized");
+            err.status = 401;
+            return callback(err);
+        }
+        bcrypt.compare(password, user.password, function (err, result) {
+           if (result === true) {
+               return callback(null, user);
+           } else {
+               return callback();
+           }
+        });
+    });
+}
 
 UserSchema.pre("save", function (next) {
     const user = this;
