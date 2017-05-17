@@ -36,7 +36,11 @@ router.post("/", function (req, res, next) {
 });
 
 router.put("/:courseId", function (req, res, next) {
-    Course.update({ _id: req.params.courseId }, { $set: req.body}, function (err, course) {
+    Course.update({
+        _id: req.params.courseId
+    }, {
+        $set: req.body
+    }, function (err, course) {
         if (err) {
             return next(err);
         }
@@ -46,7 +50,22 @@ router.put("/:courseId", function (req, res, next) {
 });
 
 router.post("/:courseId/reviews", function (req, res, next) {
-    const review = new Review(req.body);
+    Course.findById(req.params.courseId, function (err, course) {
+
+        const review = new Review(req.body);
+        review.save(function (err, review) {
+
+            course.reviews.push(review);
+            course.save(function (err, course) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(201);
+                res.location("/" + req.params.courseId);
+                res.send();
+            });
+        });
+    });
 });
 
 
