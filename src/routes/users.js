@@ -6,6 +6,8 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const User = require("../models/user");
 
+const mid = require("../middleware");
+
 router.get("/", function (req, res, next) {
     const auth = basicAuth(req);
     if (auth && basicAuth(req).name && basicAuth(req).pass) {
