@@ -5,6 +5,7 @@ var express = require('express');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var seeder = require('mongoose-seeder');
+var bodyParser = require('body-parser');
 
 var Course = require("./models/course");
 var User = require("./models/user");
@@ -12,7 +13,14 @@ var Review = require("./models/review");
 
 var data = require('./data/data.json')
 
+var userRoutes = require('./routes/users')
+
 var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // Configure the Mongo Database
 mongoose.connect('mongodb://localhost:27017/course-rating-api')
@@ -41,6 +49,8 @@ app.use(morgan('dev'));
 
 // setup our static route to serve files from the "public" folder
 app.use('/', express.static('public'));
+
+app.use('/api/users', userRoutes);
 
 // catch 404 and forward to global error handler
 app.use(function(req, res, next) {
