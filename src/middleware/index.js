@@ -1,4 +1,5 @@
 const basicAuth = require("basic-auth");
+const User = require("../models/user");
 
 function getCredentials(req, res, next) {
     const auth = basicAuth(req);
@@ -6,11 +7,13 @@ function getCredentials(req, res, next) {
     const password = basicAuth(req).pass;
 
     if (auth && emailAddress && password) {
+
         User.authenticate(emailAddress, password, function (err, user) {
             if (err) {
                 next(err);
             } else {
-                return user;
+                req.user = user;
+                return next();
             }
         });
     } else {

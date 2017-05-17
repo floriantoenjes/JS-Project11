@@ -5,26 +5,11 @@ const basicAuth = require("basic-auth");
 const bcrypt = require("bcrypt");
 const router = express.Router();
 const User = require("../models/user");
-
 const mid = require("../middleware");
 
-router.get("/", function (req, res, next) {
-    const auth = basicAuth(req);
-    if (auth && basicAuth(req).name && basicAuth(req).pass) {
-        const emailAddress = basicAuth(req).name;
-        const password = basicAuth(req).pass;
-
-        User.authenticate(emailAddress, password, function (err, user) {
-            if (err) {
-                next(err);
-            } else {
-                res.json(user);
-            }
-        });
-    } else {
-        const err = new Error("Unauthorized");
-        err.status = 401;
-        return next(err);
+router.get("/", mid.getCredentials, function (req, res, next) {
+    if (req.user) {
+        res.json(req.user);
     }
 });
 
