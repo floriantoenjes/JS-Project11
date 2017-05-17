@@ -4,6 +4,13 @@
 var express = require('express');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var seeder = require('mongoose-seeder');
+
+var Course = require("./models/course");
+var User = require("./models/user");
+var Review = require("./models/review");
+
+var data = require('./data/data.json')
 
 var app = express();
 
@@ -17,6 +24,12 @@ db.on("error", function (err) {
 
 db.once("open", function () {
     console.log("db connection successful");
+
+    seeder.seed(data).then(function (dbData) {
+       console.log("Seeded data");
+    }).catch(function (err) {
+        console.error(err);
+    });
 });
 
 
